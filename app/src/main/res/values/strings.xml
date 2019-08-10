@@ -5,4 +5,9 @@
     <string name="new_metting_negative">Annuler</string>
     <string name="main_title">Ma réu</string>
     <string name="action_filter_title">Filter</string>
+    <string name="filter_title">Filtre</string>
+    <string name="filter_positive_button">Appliquer</string>
+    <string name="filter_negative_button">Annuler</string>
+    <string name="newMeetingRoomHint">Salle</string>
+    <string name="newMeetingTopicHint">Sujet de la réunion</string>
 </resources>

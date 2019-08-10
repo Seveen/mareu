@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.guilhempelissier.mareu.di.DI;
 import com.guilhempelissier.mareu.model.Meeting;
+import com.guilhempelissier.mareu.model.Participant;
+import com.guilhempelissier.mareu.model.Room;
 import com.guilhempelissier.mareu.service.MeetingApiService;
 
 import java.util.ArrayList;
@@ -33,12 +35,16 @@ public class MeetingRepository {
 		((MutableLiveData<List<Meeting>>) meetingList).setValue(meetingApiService.getMeetings());
 	}
 
+	public void createNewMeeting(Room place, String topic, long date, List<Participant> participants) {
+		addMeeting(new Meeting(place, topic, date, participants));
+	}
+
 	public void removeMeeting(Meeting meeting) {
 		meetingApiService.removeMeeting(meeting);
 		((MutableLiveData<List<Meeting>>) meetingList).setValue(meetingApiService.getMeetings());
 	}
 
-	public void deleteMeetingById(int id) {
+	public void deleteMeetingById(String id) {
 		List<Meeting> meetingsToRemove = filterMeetingsById(id);
 
 		if (meetingsToRemove.size() != 0) {
@@ -48,12 +54,12 @@ public class MeetingRepository {
 		}
 	}
 
-	private List<Meeting> filterMeetingsById(int id) {
+	private List<Meeting> filterMeetingsById(String id) {
 		List<Meeting> result = new ArrayList<>();
 		List<Meeting> meetings = meetingApiService.getMeetings();
 
 		for (Meeting meeting : meetings) {
-			if (meeting.getId() == id) {
+			if (meeting.getId().equals(id)) {
 				result.add(meeting);
 			}
 		}

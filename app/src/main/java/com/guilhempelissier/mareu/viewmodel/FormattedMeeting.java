@@ -1,11 +1,11 @@
 package com.guilhempelissier.mareu.viewmodel;
 
 public class FormattedMeeting {
-	String title;
-	String description;
-	int id;
+	private String title;
+	private String description;
+	private String id;
 
-	public FormattedMeeting(String title, String description, int id) {
+	public FormattedMeeting(String title, String description, String id) {
 		this.title = title;
 		this.description = description;
 		this.id = id;
@@ -27,11 +27,11 @@ public class FormattedMeeting {
 		this.description = description;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 }

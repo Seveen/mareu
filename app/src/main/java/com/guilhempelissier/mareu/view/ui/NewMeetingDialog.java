@@ -1,42 +1,39 @@
 package com.guilhempelissier.mareu.view.ui;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.guilhempelissier.mareu.R;
+import com.hootsuite.nachos.NachoTextView;
+import com.hootsuite.nachos.terminator.ChipTerminatorHandler;
+import com.hootsuite.nachos.validator.ChipifyingNachoValidator;
 
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class NewMeetingDialog extends DialogFragment {
 	private NewMeetingDialogListener listener;
 
-	private EditText participantEditText;
 	private EditText topicEditText;
 	private EditText placeEditText;
-	private ChipGroup entryChipGroup;
+	private Button datePickerButton;
+	private NachoTextView chipsTextView;
 
-	List<String> participants = new ArrayList<>();
+	private DateFormat df = DateFormat.getDateTimeInstance();
+	private Calendar calendar = Calendar.getInstance();
 
 	@Override
 	public void onAttach(Context context) {
@@ -44,70 +41,63 @@ public class NewMeetingDialog extends DialogFragment {
 		listener = (NewMeetingDialogListener) context;
 	}
 
-	@Override
-	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-
-		entryChipGroup = view.findViewById(R.id.newMeetingChipGroup);
-		participantEditText = view.findViewById(R.id.newMeetingParticipantEditText);
-		topicEditText = view.findViewById(R.id.newMeetingTopicEditText);
-		placeEditText = view.findViewById(R.id.newMeetingPlaceEditText);
-		participantEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-				boolean handled = false;
-				if (actionId == EditorInfo.IME_ACTION_GO) {
-					handled = true;
-					String text = textView.getText().toString();
-					entryChipGroup.addView(createChip(entryChipGroup, text));
-					participants.add(text);
-				}
-				return handled;
-			}
-		});
-	}
-
 	@NonNull
 	@Override
 	public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		final View view = requireActivity().getLayoutInflater().inflate(R.layout.dialog_add_new_meeting, null);
+
+		calendar.setTime(new Date());
+
+		topicEditText = view.findViewById(R.id.newMeetingTopicEditText);
+		placeEditText = view.findViewById(R.id.newMeetingPlaceEditText);
+		datePickerButton = view.findViewById(R.id.newMeetingDatePickerButton);
+		datePickerButton.setText(df.format(new Date(calendar.getTimeInMillis())));
+		chipsTextView = view.findViewById(R.id.newMeetingChipsTextView);
+
+		chipsTextView.addChipTerminator('\n', ChipTerminatorHandler.BEHAVIOR_CHIPIFY_ALL);
+		chipsTextView.addChipTerminator( ' ', ChipTerminatorHandler.BEHAVIOR_CHIPIFY_ALL);
+		chipsTextView.enableEditChipOnTouch(true, true);
+		chipsTextView.setNachoValidator(new ChipifyingNachoValidator());
+
+		datePickerButton.setOnClickListener(view1 -> {
+			DatePickerDialog dateDialog = new DatePickerDialog(requireContext(),
+					(datePicker, year, month, dayOfMonth) -> {
+						calendar.set(year, month, dayOfMonth);
+						TimePickerDialog  timeDialog = new TimePickerDialog(requireContext(),
+								(timePicker, hourOfDay, minute) -> {
+									calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+									calendar.set(Calendar.MINUTE, minute);
+									datePickerButton.setText(
+										df.format(new Date(calendar.getTimeInMillis()))
+									);
+								},
+								calendar.get(Calendar.HOUR_OF_DAY),
+								calendar.get(Calendar.MINUTE),
+								true
+						);
+						timeDialog.show();
+					},
+					calendar.get(Calendar.YEAR),
+					calendar.get(Calendar.MONTH),
+					calendar.get(Calendar.DAY_OF_MONTH)
+			);
+			dateDialog.show();
+		});
 
 		builder.setTitle(R.string.add_new_meeting)
-				.setPositiveButton(R.string.new_meeting_positive, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialogInterface, int i) {
-						String topic = topicEditText.getText().toString();
-						String place = placeEditText.getText().toString();
-
-						listener.onDialogPositiveClick(topic, place, 0,participants);
-					}
-				})
-				.setNegativeButton(R.string.new_metting_negative, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialogInterface, int i) {
-						NewMeetingDialog.this.getDialog().cancel();
-					}
-				})
-				.setView(requireActivity().getLayoutInflater().inflate(R.layout.dialog_add_new_meeting, null));
+				.setPositiveButton(R.string.new_meeting_positive, (dialogInterface, i) -> listener.onDialogPositiveClick(
+						topicEditText.getText().toString(),
+						placeEditText.getText().toString(),
+						calendar.getTimeInMillis(),
+						chipsTextView.getChipValues()))
+				.setNegativeButton(R.string.new_metting_negative, (dialogInterface, i) -> NewMeetingDialog.this.getDialog().cancel())
+				.setView(view);
 
 		return builder.create();
 	}
 
-	private Chip createChip(final ChipGroup entryChipGroup, final String text) {
-		final Chip chip = new Chip(requireContext());
-		chip.setText(text);
-		chip.setChipIcon(getContext().getDrawable(R.drawable.ic_cancel_gray_24dp));
-		chip.setOnCloseIconClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				entryChipGroup.removeView(chip);
-				participants.remove(text);
-			}
-		});
-		return chip;
-	}
-
 	public interface NewMeetingDialogListener {
-		public void onDialogPositiveClick(String topic, String place, int time, List<String> participants);
+		void onDialogPositiveClick(String topic, String place, long time, List<String> participants);
 	}
 }

@@ -1,10 +1,8 @@
 package com.guilhempelissier.mareu.view.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -74,7 +72,7 @@ public class MeetingListAdapter extends RecyclerView.Adapter<MeetingListAdapter.
 	}
 
 	public interface OnDeleteClickListener {
-		void onDelete(int id);
+		void onDelete(String id);
 	}
 
 	public void setOnItemDeleteListener(OnDeleteClickListener listener) {

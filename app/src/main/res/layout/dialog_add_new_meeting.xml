@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Sujet de la réunion" />
+        android:hint="@string/newMeetingTopicHint" />
 
     <EditText
         android:id="@+id/newMeetingPlaceEditText"
@@ -17,27 +17,17 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Salle" />
+        android:hint="@string/newMeetingRoomHint" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/newMeetingChipGroup"
+    <Button
+        android:id="@+id/newMeetingDatePickerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical" />
+
+    <com.hootsuite.nachos.NachoTextView
+        android:id="@+id/newMeetingChipsTextView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" />
 
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Test" />
-
-        <EditText
-            android:id="@+id/newMeetingParticipantEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:imeOptions="actionGo"
-            android:maxLines="1"
-            android:inputType="text" />
-    </com.google.android.material.chip.ChipGroup>
 </LinearLayout>

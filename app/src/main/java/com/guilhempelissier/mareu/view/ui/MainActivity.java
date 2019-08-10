@@ -3,7 +3,6 @@ package com.guilhempelissier.mareu.view.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,7 +21,7 @@ import com.guilhempelissier.mareu.viewmodel.MeetingListViewModel;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NewMeetingDialog.NewMeetingDialogListener{
+public class MainActivity extends AppCompatActivity implements NewMeetingDialog.NewMeetingDialogListener, FilterDialog.FilterDialogListener {
 	private RecyclerView recyclerView;
 	private MeetingListViewModel meetingListViewModel;
 	private MeetingListAdapter meetingListAdapter;
@@ -40,12 +39,7 @@ public class MainActivity extends AppCompatActivity implements NewMeetingDialog.
 
 		newMeetingButton = findViewById(R.id.meeting_list_addMeetingBtn);
 
-		newMeetingButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				showNewMeetingDialog();
-			}
-		});
+		newMeetingButton.setOnClickListener(view -> showNewMeetingDialog());
 
 		meetingListViewModel = ViewModelProviders.of(this).get(MeetingListViewModel.class);
 		meetings = meetingListViewModel.getMeetingListObservable();
@@ -55,19 +49,9 @@ public class MainActivity extends AppCompatActivity implements NewMeetingDialog.
 		meetingListAdapter = new MeetingListAdapter(meetings.getValue());
 		recyclerView.setAdapter(meetingListAdapter);
 
-		meetings.observe(this, new Observer<List<FormattedMeeting>>() {
-			@Override
-			public void onChanged(List<FormattedMeeting> formattedMeetings) {
-				meetingListAdapter.setData(formattedMeetings);
-			}
-		});
+		meetings.observe(this, formattedMeetings -> meetingListAdapter.setData(formattedMeetings));
 
-		meetingListAdapter.setOnItemDeleteListener(new MeetingListAdapter.OnDeleteClickListener() {
-			@Override
-			public void onDelete(int id) {
-				meetingListViewModel.deleteMeetingById(id);
-			}
-		});
+		meetingListAdapter.setOnItemDeleteListener(id -> meetingListViewModel.deleteMeetingById(id));
 	}
 
 	@Override
@@ -91,11 +75,19 @@ public class MainActivity extends AppCompatActivity implements NewMeetingDialog.
 	}
 
 	public void showFilterDialog() {
-		
+		FilterDialog dialog = new FilterDialog();
+		dialog.show(getSupportFragmentManager(), "FilterDialog");
 	}
 
 	@Override
-	public void onDialogPositiveClick(String topic, String place, int time, List<String> participants) {
+	public void onDialogPositiveClick(String topic, String place, long time, List<String> participants) {
+		meetingListViewModel.addNewMeeting(topic, place, time, participants);
+	}
 
+	@Override
+	public void onDialogPositiveClick(long startDateFilter, long stopDateFilter, List<String> allowedPlacesFilter) {
+		meetingListViewModel.setStartHourFilter(startDateFilter);
+		meetingListViewModel.setEndHourFilter(stopDateFilter);
+		meetingListViewModel.setAllowedPlaces(allowedPlacesFilter);
 	}
 }
