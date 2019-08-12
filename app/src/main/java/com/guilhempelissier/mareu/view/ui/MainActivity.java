@@ -17,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.guilhempelissier.mareu.R;
 import com.guilhempelissier.mareu.view.adapter.MeetingListAdapter;
 import com.guilhempelissier.mareu.viewmodel.FormattedMeeting;
+import com.guilhempelissier.mareu.viewmodel.MeetingListFilter;
 import com.guilhempelissier.mareu.viewmodel.MeetingListViewModel;
 
 import java.util.List;
@@ -75,8 +76,11 @@ public class MainActivity extends AppCompatActivity implements NewMeetingDialog.
 	}
 
 	public void showFilterDialog() {
-		FilterDialog dialog = new FilterDialog();
-		dialog.show(getSupportFragmentManager(), "FilterDialog");
+		MeetingListFilter currentFilter = meetingListViewModel.getMeetingListFilter().getValue();
+		if (currentFilter != null) {
+			FilterDialog dialog = new FilterDialog(currentFilter);
+			dialog.show(getSupportFragmentManager(), "FilterDialog");
+		}
 	}
 
 	@Override

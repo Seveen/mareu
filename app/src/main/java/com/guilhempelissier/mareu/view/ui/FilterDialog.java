@@ -13,15 +13,21 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.guilhempelissier.mareu.R;
-import com.guilhempelissier.mareu.viewmodel.MeetingListViewModel;
+import com.guilhempelissier.mareu.model.Room;
+import com.guilhempelissier.mareu.viewmodel.MeetingListFilter;
+import com.hootsuite.nachos.ChipConfiguration;
 import com.hootsuite.nachos.NachoTextView;
+import com.hootsuite.nachos.chip.Chip;
+import com.hootsuite.nachos.chip.ChipSpan;
+import com.hootsuite.nachos.chip.ChipSpanChipCreator;
 import com.hootsuite.nachos.terminator.ChipTerminatorHandler;
+import com.hootsuite.nachos.tokenizer.SpanChipTokenizer;
 import com.hootsuite.nachos.validator.ChipifyingNachoValidator;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +45,17 @@ public class FilterDialog extends DialogFragment {
 	private Calendar startCalendar = Calendar.getInstance();
 	private Calendar stopCalendar = Calendar.getInstance();
 
+	private List<String> oldPlaces = new ArrayList<>();
+
+	FilterDialog(MeetingListFilter oldFilter) {
+		startCalendar.setTimeInMillis(oldFilter.getDateSlotStartTime());
+		stopCalendar.setTimeInMillis(oldFilter.getDateSlotEndTime());
+
+		for (Room room : oldFilter.getAllowedPlaces()) {
+			oldPlaces.add(room.getName());
+		}
+	}
+
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);
@@ -51,22 +68,66 @@ public class FilterDialog extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		final View view = requireActivity().getLayoutInflater().inflate(R.layout.dialog_filter_meetings, null);
 
-		startCalendar.setTimeInMillis(0);
-		stopCalendar.setTimeInMillis(0);
-
 		pickStartButton = view.findViewById(R.id.filterMeetingPickStartDateButton);
 		pickStopButton = view.findViewById(R.id.filterMeetingPickStopDateButton);
 		clearStartButton = view.findViewById(R.id.filterMeetingClearStartDateButton);
 		clearStopButton = view.findViewById(R.id.filterMeetingClearStopDateButton);
 		chipsTextView = view.findViewById(R.id.filterMeetingChipsTextView);
+		chipsTextView.setText(oldPlaces);
 
-		pickStartButton.setText("None");
-		pickStopButton.setText("None");
+		setButtonsText();
 
 		chipsTextView.addChipTerminator('\n', ChipTerminatorHandler.BEHAVIOR_CHIPIFY_ALL);
 		chipsTextView.enableEditChipOnTouch(true, true);
 		chipsTextView.setNachoValidator(new ChipifyingNachoValidator());
+//		chipsTextView.setChipTokenizer(new SpanChipTokenizer<>(requireContext(), new ChipSpanChipCreator() {
+//			@Override
+//			public ChipSpan createChip(@NonNull Context context, @NonNull ChipSpan existingChip) {
+//				return super.createChip(context, existingChip);
+//			}
+//
+//			@Override
+//			public void configureChip(@NonNull ChipSpan chip, @NonNull ChipConfiguration chipConfiguration) {
+//				super.configureChip(chip, chipConfiguration);
+//				chip.setShowIconOnLeft(true);
+//			}
+//		}, ChipSpan.class));
 
+		setButtonsOnClick();
+
+		builder.setTitle(R.string.filter_title)
+				.setPositiveButton(R.string.filter_positive_button, (dialogInterface, i) -> {
+					listener.onDialogPositiveClick(
+							startCalendar.getTimeInMillis(),
+							stopCalendar.getTimeInMillis(),
+							chipsTextView.getChipValues()
+					);
+				})
+				.setNegativeButton(R.string.filter_negative_button, (dialogInterface, i) -> FilterDialog.this.getDialog().cancel())
+				.setView(view);
+
+		return builder.create();
+	}
+
+	private void setButtonsText() {
+		if (startCalendar.getTimeInMillis() == 0) {
+			pickStartButton.setText("None");
+		} else {
+			pickStartButton.setText(
+					df.format(new Date(startCalendar.getTimeInMillis()))
+			);
+		}
+
+		if (stopCalendar.getTimeInMillis() == 0) {
+			pickStopButton.setText("None");
+		} else {
+			pickStopButton.setText(
+					df.format(new Date(stopCalendar.getTimeInMillis()))
+			);
+		}
+	}
+
+	private void setButtonsOnClick() {
 		pickStartButton.setOnClickListener(view1 -> {
 			startCalendar.setTime(new Date());
 			DatePickerDialog dateDialog = new DatePickerDialog(requireContext(),
@@ -128,19 +189,6 @@ public class FilterDialog extends DialogFragment {
 			stopCalendar.setTimeInMillis(0);
 			pickStopButton.setText("None");
 		});
-
-		builder.setTitle(R.string.filter_title)
-				.setPositiveButton(R.string.filter_positive_button, (dialogInterface, i) -> {
-					listener.onDialogPositiveClick(
-							startCalendar.getTimeInMillis(),
-							stopCalendar.getTimeInMillis(),
-							chipsTextView.getChipValues()
-					);
-				})
-				.setNegativeButton(R.string.filter_negative_button, (dialogInterface, i) -> FilterDialog.this.getDialog().cancel())
-				.setView(view);
-
-		return builder.create();
 	}
 
 	public interface FilterDialogListener {
