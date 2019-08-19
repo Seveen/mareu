@@ -26,7 +26,7 @@ public class MeetingListViewModel extends ViewModel {
 	private LiveData<List<FormattedMeeting>> formattedMeetingList;
 
 	public MeetingListViewModel() {
-		repository = DI.getMeetingRepository();
+		repository = DI.getNewInstanceRepository();
 		meetingList = repository.getMeetingList();
 		meetingListFilter.setValue(new MeetingListFilter(0,0,new ArrayList<>()));
 
