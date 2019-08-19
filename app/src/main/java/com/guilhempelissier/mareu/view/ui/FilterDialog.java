@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,17 +26,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class FilterDialog extends DialogFragment {
 	private FilterDialogListener listener;
 
 	private Button pickStartButton;
 	private Button pickStopButton;
-	private Button clearStartButton;
-	private Button clearStopButton;
+	private ImageButton clearStartButton;
+	private ImageButton clearStopButton;
 	private NachoTextView chipsTextView;
 
-	private DateFormat df = DateFormat.getDateTimeInstance();
+	private DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.FRANCE);
 	private Calendar startCalendar = Calendar.getInstance();
 	private Calendar stopCalendar = Calendar.getInstance();
 
@@ -74,19 +76,6 @@ public class FilterDialog extends DialogFragment {
 		chipsTextView.addChipTerminator('\n', ChipTerminatorHandler.BEHAVIOR_CHIPIFY_ALL);
 		chipsTextView.enableEditChipOnTouch(true, true);
 		chipsTextView.setNachoValidator(new ChipifyingNachoValidator());
-//		chipsTextView.setChipTokenizer(new SpanChipTokenizer<>(requireContext(), new ChipSpanChipCreator() {
-//			@Override
-//			public ChipSpan createChip(@NonNull Context context, @NonNull ChipSpan existingChip) {
-//				return super.createChip(context, existingChip);
-//			}
-//
-//			@Override
-//			public void configureChip(@NonNull ChipSpan chip, @NonNull ChipConfiguration chipConfiguration) {
-//				super.configureChip(chip, chipConfiguration);
-//				chip.setShowIconOnLeft(true);
-//			}
-//		}, ChipSpan.class));
-
 		setStartButtonsOnClick();
 		setStopButtonsOnClick();
 

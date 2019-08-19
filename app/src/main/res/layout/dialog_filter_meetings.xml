@@ -3,71 +3,82 @@
 <androidx.constraintlayout.widget.ConstraintLayout
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/linearLayout2"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout2"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:gravity="start">
 
-<TextView
-    android:id="@+id/filterMeetingLabelStartDate"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:text="Start Date:"
-    app:layout_constraintBottom_toBottomOf="@+id/filterMeetingPickStartDateButton"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="@+id/filterMeetingPickStartDateButton" />
+    <TextView
+        android:id="@+id/filterMeetingLabelStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Date début :"
+        app:layout_constraintBottom_toBottomOf="@+id/filterMeetingPickStartDateButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/filterMeetingPickStartDateButton" />
 
-<Button
-    android:id="@+id/filterMeetingPickStartDateButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="None"
-    app:layout_constraintEnd_toStartOf="@+id/filterMeetingClearStartDateButton"
-    app:layout_constraintStart_toEndOf="@+id/filterMeetingLabelStartDate"
-    app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/filterMeetingPickStartDateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="None"
+        app:layout_constraintEnd_toStartOf="@+id/filterMeetingClearStartDateButton"
+        app:layout_constraintStart_toEndOf="@+id/filterMeetingLabelStartDate"
+        app:layout_constraintTop_toTopOf="parent" />
 
-<Button
-    android:id="@+id/filterMeetingClearStartDateButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:icon="@drawable/ic_cancel_gray_24dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/filterMeetingClearStartDateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_rounded"
+        android:src="@drawable/ic_cancel_white_24dp"
+        android:contentDescription="clear start date button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-<TextView
-    android:id="@+id/filterMeetingLabelStopDate"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:text="Stop Date:"
-    app:layout_constraintBottom_toBottomOf="@+id/filterMeetingPickStopDateButton"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="@+id/filterMeetingPickStopDateButton" />
+    <TextView
+        android:id="@+id/filterMeetingLabelStopDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Date fin :"
+        app:layout_constraintBottom_toBottomOf="@+id/filterMeetingPickStopDateButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/filterMeetingPickStopDateButton" />
 
-<Button
-    android:id="@+id/filterMeetingPickStopDateButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="None"
-    app:layout_constraintEnd_toStartOf="@+id/filterMeetingClearStopDateButton"
-    app:layout_constraintStart_toEndOf="@+id/filterMeetingLabelStopDate"
-    app:layout_constraintTop_toBottomOf="@+id/filterMeetingPickStartDateButton" />
+    <Button
+        android:id="@+id/filterMeetingPickStopDateButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="None"
+        app:layout_constraintEnd_toEndOf="@+id/filterMeetingPickStartDateButton"
+        app:layout_constraintStart_toStartOf="@+id/filterMeetingPickStartDateButton"
+        app:layout_constraintTop_toBottomOf="@+id/filterMeetingPickStartDateButton" />
 
-<Button
-    android:id="@+id/filterMeetingClearStopDateButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:icon="@drawable/ic_cancel_gray_24dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/filterMeetingClearStartDateButton" />
+    <ImageButton
+        android:id="@+id/filterMeetingClearStopDateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/btn_rounded"
+        android:src="@drawable/ic_cancel_white_24dp"
+        android:contentDescription="clear stop date button"
+        app:layout_constraintBottom_toTopOf="@+id/filterMeetingChipsTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filterMeetingClearStartDateButton" />
 
-<com.hootsuite.nachos.NachoTextView
-    android:id="@+id/filterMeetingChipsTextView"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/filterMeetingPickStopDateButton" />
+    <com.hootsuite.nachos.NachoTextView
+        android:id="@+id/filterMeetingChipsTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filterMeetingPickStopDateButton" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
