@@ -15,17 +15,17 @@ public class DummyMeetingGenerator {
 					new Participant("joel@lamzone.fr"),
 					new Participant("alex@lamzone.fr"),
 					new Participant("paul@lamzone.fr")
-			)),
+			), "1"),
 			new Meeting(new Room("Salle 2"), "Coin fumeur", 50400000, Arrays.asList(
 					new Participant("luc@lamzone.fr"),
 					new Participant("noe@lamzone.fr"),
 					new Participant("viviane@lamzone.fr")
-			)),
+			), "2"),
 			new Meeting(new Room("Salle 3"), "Metrics du quarter", 57600000, Arrays.asList(
 					new Participant("maxime@lamzone.fr"),
 					new Participant("amandine@lamzone.fr"),
 					new Participant("paul@lamzone.fr")
-			))
+			), "3")
 	);
 
 	static List<Meeting> generateMeetings() {

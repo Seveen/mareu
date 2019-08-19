@@ -1,5 +1,6 @@
 package com.guilhempelissier.mareu.repository;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -17,7 +18,7 @@ import java.util.List;
 //call API quand les données locales ne sont pas fraiches.
 
 public class MeetingRepository {
-	private MeetingApiService meetingApiService = DI.getMeetingApiService();
+	private MeetingApiService meetingApiService = DI.getNewInstanceApiService();
 	public LiveData<List<Meeting>> meetingList;
 
 	public MeetingRepository() {
@@ -54,7 +55,8 @@ public class MeetingRepository {
 		}
 	}
 
-	private List<Meeting> filterMeetingsById(String id) {
+	@VisibleForTesting
+	public List<Meeting> filterMeetingsById(String id) {
 		List<Meeting> result = new ArrayList<>();
 		List<Meeting> meetings = meetingApiService.getMeetings();
 
