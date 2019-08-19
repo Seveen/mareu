@@ -1,5 +1,6 @@
 package com.guilhempelissier.mareu.view.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,14 +53,25 @@ public class MeetingListAdapter extends RecyclerView.Adapter<MeetingListAdapter.
 			super(binding.getRoot());
 			this.binding = binding;
 
-			binding.meetingDeleteBtn.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					int position = getAdapterPosition();
+			binding.meetingDeleteBtn.setOnClickListener(view -> {
+				int position = getAdapterPosition();
 
-					if (listener != null && position != RecyclerView.NO_POSITION) {
-						listener.onDelete(mMeetings.get(position).getId());
-					}
+				if (listener != null && position != RecyclerView.NO_POSITION) {
+					listener.onDelete(mMeetings.get(position).getId());
+				}
+			});
+
+			binding.ContraintLayout.setOnClickListener(view -> {
+				if (binding.meetingTitleTextview.getMaxLines() == 1) {
+					binding.meetingTitleTextview.setMaxLines(15);
+				} else {
+					binding.meetingTitleTextview.setMaxLines(1);
+				}
+
+				if (binding.meetingDescriptionTextview.getMaxLines() == 1) {
+					binding.meetingDescriptionTextview.setMaxLines(15);
+				} else {
+					binding.meetingDescriptionTextview.setMaxLines(1);
 				}
 			});
 		}

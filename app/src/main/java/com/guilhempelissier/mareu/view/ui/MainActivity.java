@@ -55,6 +55,19 @@ public class MainActivity extends AppCompatActivity implements NewMeetingDialog.
 		meetingListAdapter.setOnItemDeleteListener(id -> meetingListViewModel.deleteMeetingById(id));
 	}
 
+	public void showNewMeetingDialog() {
+		NewMeetingDialog dialog = new NewMeetingDialog();
+		dialog.show(getSupportFragmentManager(), "NewMeetingDialog");
+	}
+
+	public void showFilterDialog() {
+		MeetingListFilter currentFilter = meetingListViewModel.getMeetingListFilter().getValue();
+		if (currentFilter != null) {
+			FilterDialog dialog = new FilterDialog(currentFilter);
+			dialog.show(getSupportFragmentManager(), "FilterDialog");
+		}
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.filter_menu, menu);
@@ -68,19 +81,6 @@ public class MainActivity extends AppCompatActivity implements NewMeetingDialog.
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	public void showNewMeetingDialog() {
-		NewMeetingDialog dialog = new NewMeetingDialog();
-		dialog.show(getSupportFragmentManager(), "NewMeetingDialog");
-	}
-
-	public void showFilterDialog() {
-		MeetingListFilter currentFilter = meetingListViewModel.getMeetingListFilter().getValue();
-		if (currentFilter != null) {
-			FilterDialog dialog = new FilterDialog(currentFilter);
-			dialog.show(getSupportFragmentManager(), "FilterDialog");
-		}
 	}
 
 	@Override

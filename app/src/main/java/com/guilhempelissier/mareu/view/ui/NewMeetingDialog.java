@@ -60,6 +60,21 @@ public class NewMeetingDialog extends DialogFragment {
 		chipsTextView.enableEditChipOnTouch(true, true);
 		chipsTextView.setNachoValidator(new ChipifyingNachoValidator());
 
+		setButtonOnClick();
+
+		builder.setTitle(R.string.add_new_meeting)
+				.setPositiveButton(R.string.new_meeting_positive, (dialogInterface, i) -> listener.onDialogPositiveClick(
+						topicEditText.getText().toString(),
+						placeEditText.getText().toString(),
+						calendar.getTimeInMillis(),
+						chipsTextView.getChipValues()))
+				.setNegativeButton(R.string.new_metting_negative, (dialogInterface, i) -> NewMeetingDialog.this.getDialog().cancel())
+				.setView(view);
+
+		return builder.create();
+	}
+
+	private void setButtonOnClick() {
 		datePickerButton.setOnClickListener(view1 -> {
 			DatePickerDialog dateDialog = new DatePickerDialog(requireContext(),
 					(datePicker, year, month, dayOfMonth) -> {
@@ -69,7 +84,7 @@ public class NewMeetingDialog extends DialogFragment {
 									calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
 									calendar.set(Calendar.MINUTE, minute);
 									datePickerButton.setText(
-										df.format(new Date(calendar.getTimeInMillis()))
+											df.format(new Date(calendar.getTimeInMillis()))
 									);
 								},
 								calendar.get(Calendar.HOUR_OF_DAY),
@@ -84,17 +99,6 @@ public class NewMeetingDialog extends DialogFragment {
 			);
 			dateDialog.show();
 		});
-
-		builder.setTitle(R.string.add_new_meeting)
-				.setPositiveButton(R.string.new_meeting_positive, (dialogInterface, i) -> listener.onDialogPositiveClick(
-						topicEditText.getText().toString(),
-						placeEditText.getText().toString(),
-						calendar.getTimeInMillis(),
-						chipsTextView.getChipValues()))
-				.setNegativeButton(R.string.new_metting_negative, (dialogInterface, i) -> NewMeetingDialog.this.getDialog().cancel())
-				.setView(view);
-
-		return builder.create();
 	}
 
 	public interface NewMeetingDialogListener {

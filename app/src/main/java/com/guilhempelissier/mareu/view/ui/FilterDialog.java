@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,13 +16,8 @@ import androidx.fragment.app.DialogFragment;
 import com.guilhempelissier.mareu.R;
 import com.guilhempelissier.mareu.model.Room;
 import com.guilhempelissier.mareu.viewmodel.MeetingListFilter;
-import com.hootsuite.nachos.ChipConfiguration;
 import com.hootsuite.nachos.NachoTextView;
-import com.hootsuite.nachos.chip.Chip;
-import com.hootsuite.nachos.chip.ChipSpan;
-import com.hootsuite.nachos.chip.ChipSpanChipCreator;
 import com.hootsuite.nachos.terminator.ChipTerminatorHandler;
-import com.hootsuite.nachos.tokenizer.SpanChipTokenizer;
 import com.hootsuite.nachos.validator.ChipifyingNachoValidator;
 
 import java.text.DateFormat;
@@ -93,7 +87,8 @@ public class FilterDialog extends DialogFragment {
 //			}
 //		}, ChipSpan.class));
 
-		setButtonsOnClick();
+		setStartButtonsOnClick();
+		setStopButtonsOnClick();
 
 		builder.setTitle(R.string.filter_title)
 				.setPositiveButton(R.string.filter_positive_button, (dialogInterface, i) -> {
@@ -127,7 +122,7 @@ public class FilterDialog extends DialogFragment {
 		}
 	}
 
-	private void setButtonsOnClick() {
+	private void setStartButtonsOnClick() {
 		pickStartButton.setOnClickListener(view1 -> {
 			startCalendar.setTime(new Date());
 			DatePickerDialog dateDialog = new DatePickerDialog(requireContext(),
@@ -154,6 +149,13 @@ public class FilterDialog extends DialogFragment {
 			dateDialog.show();
 		});
 
+		clearStartButton.setOnClickListener(view1 -> {
+			startCalendar.setTimeInMillis(0);
+			pickStartButton.setText("None");
+		});
+	}
+
+	private void setStopButtonsOnClick() {
 		pickStopButton.setOnClickListener(view1 -> {
 			stopCalendar.setTime(new Date());
 			DatePickerDialog dateDialog = new DatePickerDialog(requireContext(),
@@ -178,11 +180,6 @@ public class FilterDialog extends DialogFragment {
 					stopCalendar.get(Calendar.DAY_OF_MONTH)
 			);
 			dateDialog.show();
-		});
-
-		clearStartButton.setOnClickListener(view1 -> {
-			startCalendar.setTimeInMillis(0);
-			pickStartButton.setText("None");
 		});
 
 		clearStopButton.setOnClickListener(view1 -> {
