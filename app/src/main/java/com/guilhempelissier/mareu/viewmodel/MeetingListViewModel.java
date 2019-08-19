@@ -15,6 +15,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MeetingListViewModel extends ViewModel {
 	private MeetingRepository repository;
@@ -147,7 +148,7 @@ public class MeetingListViewModel extends ViewModel {
 	}
 
 	private FormattedMeeting formatMeeting(Meeting meeting) {
-		DateFormat df = DateFormat.getTimeInstance(DateFormat.SHORT);
+		DateFormat df = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.FRANCE);
 		Date meetingDate = new Date(meeting.getDate());
 
 		String title = (meeting.getTopic() + " - " +

@@ -11,11 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        app:title="@string/main_title"
-        app:titleTextColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
+        android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/main_title"
+        app:titleTextColor="@color/white" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/meeting_list_recyclerview"
