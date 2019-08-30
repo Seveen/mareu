@@ -5,8 +5,11 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -85,7 +88,7 @@ public class FilterDialog extends DialogFragment {
 						stopCalendar.getTimeInMillis(),
 						chipsTextView.getChipValues()
 				))
-				.setNegativeButton(R.string.filter_negative_button, (dialogInterface, i) -> FilterDialog.this.getDialog().cancel())
+				.setNeutralButton(R.string.filter_negative_button, (dialogInterface, i) -> FilterDialog.this.getDialog().cancel())
 				.setView(view);
 
 		return builder.create();
@@ -93,7 +96,7 @@ public class FilterDialog extends DialogFragment {
 
 	private void setButtonsText() {
 		if (startCalendar.getTimeInMillis() == 0) {
-			pickStartButton.setText("None");
+			pickStartButton.setText(R.string.filter_meeting_default_date_button);
 		} else {
 			pickStartButton.setText(
 					df.format(new Date(startCalendar.getTimeInMillis()))
@@ -101,7 +104,7 @@ public class FilterDialog extends DialogFragment {
 		}
 
 		if (stopCalendar.getTimeInMillis() == 0) {
-			pickStopButton.setText("None");
+			pickStopButton.setText(R.string.filter_meeting_default_date_button);
 		} else {
 			pickStopButton.setText(
 					df.format(new Date(stopCalendar.getTimeInMillis()))

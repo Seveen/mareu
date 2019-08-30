@@ -1,7 +1,9 @@
 package com.guilhempelissier.mareu.viewmodel;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.LiveData;
 
+import com.guilhempelissier.mareu.model.Meeting;
 import com.guilhempelissier.mareu.model.Room;
 
 import org.junit.Before;
@@ -76,5 +78,13 @@ public class MeetingListViewModelTest {
 		vm.resetAllowedPlaces();
 		filter = vm.getMeetingListFilter().getValue();
 		assertEquals(0, filter.getAllowedPlaces().size());
+	}
+
+	@Test
+	public void filterMeetingsWithSuccess() {
+		vm.setAllowedPlaces(Arrays.asList("Salle 2"));
+		LiveData<List<FormattedMeeting>> filteredMeetings = vm.getMeetingListObservable();
+		filteredMeetings.observeForever(formattedMeetings -> {});
+		assertEquals(filteredMeetings.getValue().size(), 1);
 	}
 }

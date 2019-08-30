@@ -68,7 +68,7 @@ public class NewMeetingDialog extends DialogFragment {
 						placeEditText.getText().toString(),
 						calendar.getTimeInMillis(),
 						chipsTextView.getChipValues()))
-				.setNegativeButton(R.string.new_metting_negative, (dialogInterface, i) -> NewMeetingDialog.this.getDialog().cancel())
+				.setNeutralButton(R.string.new_metting_negative, (dialogInterface, i) -> NewMeetingDialog.this.getDialog().cancel())
 				.setView(view);
 
 		return builder.create();

@@ -10,4 +10,5 @@
     <string name="filter_negative_button">Annuler</string>
     <string name="newMeetingRoomHint">Salle</string>
     <string name="newMeetingTopicHint">Sujet de la réunion</string>
+    <string name="filter_meeting_default_date_button">None</string>
 </resources>
