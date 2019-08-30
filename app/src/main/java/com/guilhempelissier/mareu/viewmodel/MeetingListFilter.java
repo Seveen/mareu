@@ -3,6 +3,7 @@ package com.guilhempelissier.mareu.viewmodel;
 import com.guilhempelissier.mareu.model.Room;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MeetingListFilter {
 	private long dateSlotStartTime;
@@ -37,5 +38,16 @@ public class MeetingListFilter {
 
 	public void setAllowedPlaces(List<Room> allowedPlaces) {
 		this.allowedPlaces = allowedPlaces;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null || getClass() != obj.getClass()) return false;
+		MeetingListFilter otherFilter = (MeetingListFilter) obj;
+		boolean attributeEquality = Objects.equals(dateSlotStartTime, otherFilter.dateSlotStartTime)
+				&& Objects.equals(dateSlotEndTime, otherFilter.dateSlotEndTime)
+				&& Objects.equals(allowedPlaces, otherFilter.allowedPlaces);
+		return attributeEquality;
 	}
 }

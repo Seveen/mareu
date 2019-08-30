@@ -80,13 +80,11 @@ public class FilterDialog extends DialogFragment {
 		setStopButtonsOnClick();
 
 		builder.setTitle(R.string.filter_title)
-				.setPositiveButton(R.string.filter_positive_button, (dialogInterface, i) -> {
-					listener.onDialogPositiveClick(
-							startCalendar.getTimeInMillis(),
-							stopCalendar.getTimeInMillis(),
-							chipsTextView.getChipValues()
-					);
-				})
+				.setPositiveButton(R.string.filter_positive_button, (dialogInterface, i) -> listener.onDialogPositiveClick(
+						startCalendar.getTimeInMillis(),
+						stopCalendar.getTimeInMillis(),
+						chipsTextView.getChipValues()
+				))
 				.setNegativeButton(R.string.filter_negative_button, (dialogInterface, i) -> FilterDialog.this.getDialog().cancel())
 				.setView(view);
 

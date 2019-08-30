@@ -33,9 +33,7 @@ public class MeetingListViewModelTest {
 	public void getMeetingListFilterWithSuccess() {
 		MeetingListFilter expectedFilter = new MeetingListFilter(0,0,new ArrayList<>());
 		MeetingListFilter actualFilter = vm.getMeetingListFilter().getValue();
-		assertEquals(actualFilter.getDateSlotStartTime(), expectedFilter.getDateSlotStartTime());
-		assertEquals(actualFilter.getDateSlotEndTime(), expectedFilter.getDateSlotEndTime());
-		assertEquals(actualFilter.getAllowedPlaces(), expectedFilter.getAllowedPlaces());
+		assertEquals(actualFilter, expectedFilter);
 	}
 
 	@Test
