@@ -77,6 +77,7 @@ public class FilterDialog extends DialogFragment {
 		setButtonsText();
 
 		chipsTextView.addChipTerminator('\n', ChipTerminatorHandler.BEHAVIOR_CHIPIFY_ALL);
+		chipsTextView.addChipTerminator(';', ChipTerminatorHandler.BEHAVIOR_CHIPIFY_ALL);
 		chipsTextView.enableEditChipOnTouch(true, true);
 		chipsTextView.setNachoValidator(new ChipifyingNachoValidator());
 		setStartButtonsOnClick();
