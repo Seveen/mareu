@@ -5,11 +5,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -77,7 +74,6 @@ public class FilterDialog extends DialogFragment {
 		setButtonsText();
 
 		chipsTextView.addChipTerminator('\n', ChipTerminatorHandler.BEHAVIOR_CHIPIFY_ALL);
-		chipsTextView.addChipTerminator(';', ChipTerminatorHandler.BEHAVIOR_CHIPIFY_ALL);
 		chipsTextView.enableEditChipOnTouch(true, true);
 		chipsTextView.setNachoValidator(new ChipifyingNachoValidator());
 		setStartButtonsOnClick();
