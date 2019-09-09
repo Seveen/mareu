@@ -11,17 +11,17 @@ import java.util.List;
 public class DummyMeetingGenerator {
 
 	public static List<Meeting> DUMMY_MEETING = Arrays.asList(
-			new Meeting(new Room("Salle 1"), "Qualité de la cantine", 46800000, Arrays.asList(
+			new Meeting(new Room("Salle 1"), "Reunion 1", 46800000, Arrays.asList(
 					new Participant("joel@lamzone.fr"),
 					new Participant("alex@lamzone.fr"),
 					new Participant("paul@lamzone.fr")
 			), "1"),
-			new Meeting(new Room("Salle 2"), "Coin fumeur", 50400000, Arrays.asList(
+			new Meeting(new Room("Salle 2"), "Reunion 2", 50400000, Arrays.asList(
 					new Participant("luc@lamzone.fr"),
 					new Participant("noe@lamzone.fr"),
 					new Participant("viviane@lamzone.fr")
 			), "2"),
-			new Meeting(new Room("Salle 3"), "Metrics du quarter", 57600000, Arrays.asList(
+			new Meeting(new Room("Salle 3"), "Reunion 3", 57600000, Arrays.asList(
 					new Participant("maxime@lamzone.fr"),
 					new Participant("amandine@lamzone.fr"),
 					new Participant("paul@lamzone.fr")
